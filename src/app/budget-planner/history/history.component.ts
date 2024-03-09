@@ -1,51 +1,48 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { setThrowInvalidWriteToSignalError } from '@angular/core/primitives/signals';
+import { SideNavComponent } from '../side-nav/side-nav.component';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-expense',
+  selector: 'app-history',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, MatIconModule],
-  templateUrl: './expense.component.html',
-  styleUrl: './expense.component.scss',
+  templateUrl: './history.component.html',
+  styleUrl: './history.component.scss',
+  imports: [SideNavComponent, ReactiveFormsModule, CommonModule, MatIconModule],
 })
-export class ExpenseComponent {
-  expenseForm: any;
+export class HistoryComponent {
+  todoForm: any;
   selectedMonth: string;
   expenses: { month: string; expenseAmount: number }[] = [
-    { month: 'January', expenseAmount: 1500 },
-    { month: 'February', expenseAmount: 2000 },
-    { month: 'March', expenseAmount: 2310 },
+    { month: 'January', expenseAmount: 35000 },
+    { month: 'February', expenseAmount: 78000 },
+    { month: 'March', expenseAmount: 21000 },
   ];
   monthSelected: boolean = false;
 
   januaryExpense: any[] = [
     { expenseType: 'Rent', expenseAmount: 1000 },
-    { expenseType: 'Groceries', expenseAmount: 700 },
-    { expenseType: 'EatingOut', expenseAmount: 300 },
+    { expenseType: 'Groceries', expenseAmount: 800 },
   ];
   februaryExpense: any[] = [
-    { expenseType: 'utilities', expenseAmount: 250 },
-    { expenseType: 'Rent', expenseAmount: 1000 },
-    { expenseType: 'Groceries', expenseAmount: 790 },
+    { expenseType: 'utilities', expenseAmount: 1000 },
+    { expenseType: 'Groceries', expenseAmount: 800 },
   ];
   marchExpense: any[] = [
     { expenseType: 'Rent', expenseAmount: 1000 },
-    { expenseType: 'Utilities', expenseAmount: 190 },
-    { expenseType: 'Groceries', expenseAmount: 450 },
+    { expenseType: 'Utilities', expenseAmount: 800 },
   ];
 
   constructor(public fb: FormBuilder, private router: Router) {
-    this.selectedMonth = new Date().toLocaleString('default', {
+    this.selectedMonth = new Date().toLocaleDateString('default', {
       month: 'long',
     });
   }
 
   ngOnInit(): void {
-    this.expenseForm = this.fb.group({
+    this.todoForm = this.fb.group({
       month: ['', Validators.required],
       expenseType: ['', Validators.required],
       expenseAmount: ['', Validators.required],
@@ -53,10 +50,10 @@ export class ExpenseComponent {
   }
 
   onSubmitExpense() {
-    if (this.expenseForm.valid) {
-      const newExpense = this.expenseForm.value;
+    if (this.todoForm.valid) {
+      const newExpense = this.todoForm.value;
       this.getFilteredExpenses().push(newExpense);
-      this.expenseForm.reset();
+      this.todoForm.reset();
     }
   }
 
@@ -67,6 +64,7 @@ export class ExpenseComponent {
   }
 
   getFilteredExpenses() {
+    let fileteredExpense: any[] = [];
     switch (this.selectedMonth) {
       case 'January':
         return this.januaryExpense;
@@ -87,8 +85,9 @@ export class ExpenseComponent {
   }
 
   onSave() {
-    if (this.expenseForm.valid) {
-      this.expenseForm.reset({ month: this.selectedMonth });
+    if (this.todoForm.valid) {
+      const incomeData = this.todoForm.value;
+      this.todoForm.reset({ month: this.selectedMonth });
       this.getFilteredExpenses();
     }
   }

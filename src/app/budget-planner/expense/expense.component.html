@@ -39,6 +39,10 @@
           <option value="" disabled>Rent</option>
           <option value="Groceries">Groceries</option>
           <option value="Utilities">Utilities</option>
+          <option value="EatingOut">Eating Out</option>
+          <option value="Petrol">Petrol</option>
+          <option value="Shopping">Shopping</option>
+          <option value="HealthCare">HealthCare</option>
         </select>
       </div>
       <div class="form-group">
@@ -48,7 +52,7 @@
           formControlName="expenseAmount"
           id="expenseAmount"
           class="form-control"
-          placeholder="Enter amount`"
+          placeholder="Enter amount"
           [class.disabled-dropdown]="!monthSelected"
         />
       </div>
